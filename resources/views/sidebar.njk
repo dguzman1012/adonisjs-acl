@@ -12,9 +12,8 @@
         <img src="/images/user.png" alt="..." class="img-circle profile_img">
       </div>
       <div class="profile_info">
-        <span>Welcome,</span>
-        {# Full name of user is missing#}
-        <h2>Joen Doe</h2>
+        <span>Welcome,</span>        
+        <h2>{{ currentUser.username }}</h2>
       </div>
     </div>
     <!-- /menu profile quick info -->
@@ -27,8 +26,8 @@
         <h3>General</h3>
         <ul class="nav side-menu">
           <li><a><i class="fa fa-cogs"></i> Settings <span class="fa fa-chevron-down"></span></a>
-            <ul class="nav child_menu">
-              <li><a href="#">Users</a></li>
+            <ul class="nav child_menu">              
+              <li>{{ linkTo('users', 'Users') }}</li>
               <li><a href="#">ACL</a></li>
             </ul>
           </li>
@@ -38,7 +37,7 @@
               <li><a href="#">Report 2</a></li>
               <li><a href="#">Report 3</a></li>
             </ul>
-          </li>          
+          </li>
         </ul>
       </div>
     </div>

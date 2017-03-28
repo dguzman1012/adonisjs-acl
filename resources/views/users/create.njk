@@ -1,0 +1,84 @@
+{% extends 'admin_template' %}
+
+{% block page_title %} Create user | Admin Control | ACL {% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+<div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Users</h3>
+      </div>      
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>Users <small>New user</small></h2>            
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+
+            {{ form.open({route: 'users.store', class:"form-horizontal form-label-left", novalidate:true}) }}
+            	{{ csrfField }}              
+              <div class="item form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">Username 
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input id="username" class="form-control col-md-7 col-xs-12" data-validate-length-range="4" name="username" value="{{ old('username') }}" placeholder="Username" required="required" type="text">
+                </div>
+              </div>
+              <div class="item form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email 
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input id="login" class="form-control col-md-7 col-xs-12" data-validate-length-range="4" name="email" value="{{ old('email') }}" placeholder="email" required="required" type="email">
+                </div>
+              </div>
+              <div class="item form-group">
+                <label for="password" class="control-label col-md-3">Password</label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input id="password" type="password" name="password" class="form-control col-md-7 col-xs-12" placeholder="password" required="required">
+                </div>
+              </div>              
+              <div class="ln_solid"></div>
+              <div class="form-group">
+                <div class="col-md-6 col-md-offset-3">
+                  <a href="/users" type="submit" class="btn btn-primary">Cancel</a>
+                  <button id="send" type="submit" class="btn btn-success">Save</button>
+                </div>
+              </div>
+            {{ form.close() }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+    <!-- validator -->
+    <script src="/bower_components/gentelella/vendors/validator/validator.js"></script>
+    
+    <!-- PNotify -->
+    <script>
+      $(document).ready(function() {        
+        {% if old('error_message') %}
+        new PNotify({
+            title: 'Error',
+            text: "{{ old('error_message.message') }}",
+            type: 'error',
+            hide: false,
+            styling: 'bootstrap3'
+        });
+        {% endif %}
+
+      });
+    </script>
+    <!-- /PNotify -->
+    
+{% endblock %}

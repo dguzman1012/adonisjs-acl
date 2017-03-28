@@ -1,0 +1,137 @@
+{% extends 'admin_template' %}
+
+{% block page_title %} Users | Admin Control | ACL {% endblock %}
+
+{% block styles %}
+	<!-- iCheck -->
+  <link href="/bower_components/gentelella/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+  <!-- Datatables -->
+  <link href="/bower_components/gentelella/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Settings <small>Users</small></h3>
+      </div>
+
+      <div class="title_right">
+        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right">
+          <a type="button" class="btn btn-info btn-lg" href="/users/create">Create User</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>Setting<small>users</small></h2>            
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">            
+            <table id="datatable" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Created at</th>
+                  <th>Options</th>
+                </tr>
+              </thead>
+              <tbody>
+              	{% for user in users %}
+                <tr>
+                  <td>{{ user.username }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.created_at }}</td>
+                  <td>
+                  	<button type="button" data-to-edit="{{ user.id }}" class="btn btn-round btn-warning"><i class="fa fa-edit"></i> Edit</button>                    
+                    {% if user.id != currentUser.id %}                  	
+                  	<button type="button" data-to-delete="{{ user.id }}" class="btn btn-round btn-danger"><i class="fa fa-trash"></i> Delete</button>
+                  	{% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+	<!-- Datatables -->
+    <script src="/bower_components/gentelella/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/bower_components/gentelella/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+    <!-- Datatables -->
+    <script>
+      $(document).ready(function() {
+        
+        var table = $('#datatable').dataTable();
+        
+        $('#datatable tbody').on( 'click', '.btn-warning', function () {          
+          window.location="/users/" + $(this).attr('data-to-edit') + "/edit";          
+        });
+        
+        $('#datatable tbody').on( 'click', '.btn-danger', function () {
+          var element = $(this).parents('tr');
+          var id_to_delete = $(this).attr('data-to-delete');
+          console.log(id_to_delete);
+          swal({
+            title: "Are you sure?",
+            text: "If you delete this user, he/she won't be able to get access into the System!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+          },
+          function(isConfirm){  
+            if (isConfirm) {
+              $.ajax({
+                method: "DELETE",
+                url: "/users/" + id_to_delete,
+                data: { _csrf: '{{ csrfToken }}' },
+                dataType: "json"
+              })
+              .done(function( msg ) {
+                if (msg.success){
+                    swal.close();
+                    $('#datatable').dataTable().api()
+                        .row( element )
+                        .remove()
+                        .draw();
+                    new PNotify({
+                          title: 'User deleted',
+                          text: msg.message,                  
+                          styling: 'bootstrap3'
+                      });
+                }else{
+                  new PNotify({
+                        title: 'Error',
+                        text: msg.message,
+                        type: 'error',                
+                        styling: 'bootstrap3'
+                    });
+                }
+                  
+              });
+            } else {
+              swal("Cancelled", "The user information is stored", "info");
+            }
+          });
+    } );
+        
+      });
+    </script>
+    <!-- /Datatables -->
+  {% endblock %}

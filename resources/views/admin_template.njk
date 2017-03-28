@@ -69,9 +69,9 @@
       $(document).ready(function() {
         {% if old('message') %}
         new PNotify({
-            title: '{{ message.title }}',
-            text: '{{ message.text }}',
-            type: '{{ message.type }}',
+            title: "{{ old('message.title') }}",
+            text: "{{ old('message.text') }}",
+            type: "{{ old('message.type') }}",
             styling: 'bootstrap3'
         });
         {% endif %}
@@ -80,7 +80,7 @@
     <!-- /PNotify -->
     {% block scripts %}{% endblock %}  
     <!-- Custom Theme Scripts -->
-    <script src="custom.js"></script>
+    <script src="/custom.js"></script>
     
   </body>
 </html>

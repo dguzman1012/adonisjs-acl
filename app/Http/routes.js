@@ -19,6 +19,7 @@ const Route = use('Route')
 
 Route.group('authenticated', function () {
 	Route.get('/', 'HomeController.getIndex')
+	Route.resources('users', 'UsersController')
 })
 .middleware('auth')
 
