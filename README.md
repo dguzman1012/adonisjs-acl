@@ -16,6 +16,7 @@
 cd PATH_TO_PROJECT_IN_SERVER
 npm install
 bower install
+cp .env.example .env
 ```
 
 - Create a DB in Mysql Server (DB_NAME)
