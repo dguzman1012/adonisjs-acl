@@ -1,3 +1,37 @@
+# Installation guide #
+
+## dependencies ##
+- **MySql**: 5.5
+- **Node.js**: >=4.2.6
+	- **mysql**
+- **NPM**: >=3.5.2
+- **Bower**: >=1.7.9
+
+## installation ##
+
+- Configure NodeJs Env.
+- Clone project file in the PATH_TO_PROJECT_IN_SERVER.
+
+```bash
+cd PATH_TO_PROJECT_IN_SERVER
+npm install
+bower install
+```
+
+- Create a DB in Mysql Server (DB_NAME)
+- Change database connection in .env file: DB_NAME, DB_HOST, DB_USER, DB_PASSWORD
+- Initiate the Server: npm run server:dev
+- Default user: my@name.io
+- Default Password: 123456
+
+
+## technology stack ##
+- **AdonisJS** 3.2
+- **MySQL**
+- **JQuery**
+- **Twitter Bootstrap**
+
+
 # AdonisJs Application
 
 This repo is the pre-configured project structure to be used for creating ambitious web servers using AdonisJs.
@@ -32,4 +66,3 @@ Developers needs productive tools, so that they can focus on what matters, and n
 AdonisJs is a beautiful framework with pre-configured answers to all of your questions. We not only created this framework, but validated the features of framework with realtime problems and still improving every bit, so that you have to write less and structured code.
 
 This time a :boy: will write his ambitious application and will set the world on :fire:. Don't hesitate to work on your ideas and we promise to improve the framework every :sunny: and :first_quarter_moon_with_face: and YESSSS do not forget to star us on [:octocat:](https://github.com/adonisjs/adonis-framework)
-
