@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Site title
+	================================================== -->	  
+  <title>{% block page_title %}{% endblock %}</title>  
+
+    <!-- Bootstrap -->
+    <link href="/bower_components/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="/bower_components/gentelella/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="/bower_components/sweetalert/dist/sweetalert.css" rel="stylesheet">
+    <!-- PNotify -->
+    <link href="/bower_components/gentelella/vendors/pnotify/dist/pnotify.css" rel="stylesheet">
+    <link href="/bower_components/gentelella/vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
+    <link href="/bower_components/gentelella/vendors/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
+
+  {% block styles %}{% endblock %}	
+
+    <!-- Custom Theme Style -->
+    <link href="/bower_components/gentelella/build/css/custom.min.css" rel="stylesheet">
+  </head>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+      	{#  This is where we set the user Object #}
+        <!-- Sidebar -->		  
+        {% include 'sidebar' %}
+
+		
+        <!-- Header -->		
+        {% include 'header' %}
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          {% block content %}{% endblock %}            
+        </div>
+        <!-- /page content -->
+        <!-- Main Footer -->      	
+        {% include 'footer' %}
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="/bower_components/gentelella/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="/bower_components/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Sweet Alert -->
+    <script src="/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- FastClick -->
+    <script src="/bower_components/gentelella/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="/bower_components/gentelella/vendors/nprogress/nprogress.js"></script>
+    <!-- PNotify -->
+    <script src="/bower_components/gentelella/vendors/pnotify/dist/pnotify.js"></script>
+    <script src="/bower_components/gentelella/vendors/pnotify/dist/pnotify.buttons.js"></script>
+    <script src="/bower_components/gentelella/vendors/pnotify/dist/pnotify.nonblock.js"></script>
+
+    <!-- PNotify -->
+    <script>
+      $(document).ready(function() {
+        {% if old('message') %}
+        new PNotify({
+            title: '{{ message.title }}',
+            text: '{{ message.text }}',
+            type: '{{ message.type }}',
+            styling: 'bootstrap3'
+        });
+        {% endif %}
+      });
+    </script>
+    <!-- /PNotify -->
+    {% block scripts %}{% endblock %}  
+    <!-- Custom Theme Scripts -->
+    <script src="custom.js"></script>
+    
+  </body>
+</html>
