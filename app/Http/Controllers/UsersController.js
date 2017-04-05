@@ -5,7 +5,7 @@ const Hash = use('Hash')
 
 class UsersController {
 
-  * index(request, response) {    
+  * index(request, response) {        
     const users = yield User.query()    
     yield response.sendView('users.index', {
       users:users
@@ -22,7 +22,7 @@ class UsersController {
     const user = new User;
     user.username = request.input("username");
     user.email = request.input("email");
-    // i won't make the hash in this point since the model will do it by 'beforeCreate' event (please, see model for more details)
+    // i won't make the hash at this point since the model will do it by 'beforeCreate' event (please, see model for more details)
     user.password = request.input('password');
     
     var userData = request.all();

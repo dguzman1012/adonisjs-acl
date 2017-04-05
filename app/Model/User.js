@@ -30,6 +30,10 @@ class User extends Lucid {
     }
   }
 
+  static get dateFormat () {
+    return 'YYYY-MM-DD HH:mm:ss'
+  }
+
   getCreatedAt(){
     return moment(this.created_at).format('d F Y')
   }
@@ -37,6 +41,47 @@ class User extends Lucid {
   apiTokens () {
     return this.hasMany('App/Model/Token')
   }
+
+  /*
+  |--------------------------------------------------------------------------
+  | ACL Methods
+  |--------------------------------------------------------------------------
+  */
+
+  /**
+   * Checks a Permission
+   *
+   * @param  String permission Slug of a permission (i.e: manage_user)
+   * @return Boolean true if has permission, otherwise false
+   */
+  can(permission){
+    return (permission != null) && this.checkPermission(permission)
+  }
+
+  /**
+   * Check if the permission matches with any permission user has
+   *
+   * @param  String permission slug of a permission
+   * @return Boolean true if permission exists, otherwise false
+   */
+  checkPermission(perm){
+    return false;
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Relationship Methods
+  |--------------------------------------------------------------------------
+  */
+  /**
+  * Many-To-Many Relationship Method for accessing the User.roles
+  *
+  * @return Object
+  */
+  * roles () {
+    return this.belongsToMany('App/Model/Role')
+  }
+
 
 }
 
