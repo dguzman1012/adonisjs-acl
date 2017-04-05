@@ -22,7 +22,8 @@ class UsersController {
     const user = new User;
     user.username = request.input("username");
     user.email = request.input("email");
-    user.password = yield Hash.make(request.input('password'));
+    // i won't make the hash in this point since the model will do it by 'beforeCreate' event (please, see model for more details)
+    user.password = request.input('password');
     
     var userData = request.all();
     const validation = yield Validator.validate(userData, User.rules)
