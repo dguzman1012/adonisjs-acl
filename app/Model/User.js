@@ -78,7 +78,7 @@ class User extends Lucid {
   *
   * @return Object
   */
-  * roles () {
+  roles () {
     return this.belongsToMany('App/Model/Role')
   }
 

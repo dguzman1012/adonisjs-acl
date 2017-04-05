@@ -21,9 +21,10 @@ cp .env.example .env
 
 - Create a DB in Mysql Server (DB_NAME)
 - Change database connection in .env file: DB_NAME, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD
+- Run the migration rollback (if already exist data): ```./ace migration:rollback```
 - Run the migration: ```./ace migration:run```
 - Run the seeders: ```./ace db:seed```
-- Initiate the Server: ```npm run server:dev```
+- Initiate the Server: ```npm run serve:dev```
 - Default user: my@name.io
 - Default Password: 123456
 
