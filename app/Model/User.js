@@ -55,7 +55,7 @@ class User extends Lucid {
    * @return Boolean true if has permission, otherwise false
    */
   can(permission){
-    return (permission != null) && this.checkPermission(permission)
+    return (permission != null) && this.checkPermission(permission)    
   }
 
   /**
@@ -64,8 +64,14 @@ class User extends Lucid {
    * @param  String permission slug of a permission
    * @return Boolean true if permission exists, otherwise false
    */
-  checkPermission(perm){
-    return false;
+  * checkPermission(perm){        
+    return (yield this.roles()
+    .innerJoin('role_user', 'roles.id', 'role_user.role_id')
+    .innerJoin('permission_role', 'roles.id', 'permission_role.role_id')
+    .innerJoin('permissions', 'permission_role.permission_id', 'permissions.id')
+    .where('user_id', '=', this.id)
+    .where('permission_slug', '=', perm.toLowerCase())).length
+    
   }
 
   /*

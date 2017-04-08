@@ -8,7 +8,7 @@ class CheckPermission {
     const isLoggedIn = yield request.auth.check()
 	if (isLoggedIn) {
 		const user = yield request.auth.getUser()	  
-		if (user.can(permission)) { 
+		if (yield user.can(permission)) { 			
         	yield next
 		}
 	}

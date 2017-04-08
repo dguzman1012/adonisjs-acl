@@ -19,7 +19,8 @@ const Route = use('Route')
 
 Route.group('authenticated', function () {
 	Route.get('/', 'HomeController.getIndex')
-	Route.resources('users', 'UsersController')
+	Route.resources('users', 'UsersController').middleware('acl:users_view')
+	Route.resources('acl', 'UsersController').middleware('acl:accesscontrol-list_view')
 })
 .middleware('auth')
 
