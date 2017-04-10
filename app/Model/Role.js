@@ -4,6 +4,13 @@ const Lucid = use('Lucid')
 
 class Role extends Lucid {
 
+  static get rules () {
+    return {
+      role_title: 'required|unique:roles',
+      role_slug: 'required|unique:roles'
+    }
+  }
+
   static get createTimestamp () {
     return null
   }

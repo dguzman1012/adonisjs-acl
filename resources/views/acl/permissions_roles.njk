@@ -1,0 +1,211 @@
+{% extends 'admin_template' %}
+
+{% block page_title %} ACL: Permissions-Roles | Admin Control | ACL {% endblock %}
+
+{% block styles %}
+	<!-- iCheck -->
+  <link href="/bower_components/gentelella/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+  <!-- Datatables -->
+  <link href="/bower_components/gentelella/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+  <!-- NProgress -->
+  <link href="/bower_components/gentelella/vendors/nprogress/nprogress.css" rel="stylesheet">
+    
+{% endblock %}
+
+{% block content %}
+<div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>ACL <small>Permissions-Roles</small></h3>
+      </div>      
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>ACL<small>roles</small></h2>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <table id="datatable" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Slug</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              	{% for role in roles %}
+                <tr>
+                  <td>{{ role.role_title }}</td>
+                  <td>{{ role.role_slug }}</td>
+                  <td>
+                  	<button type="button" data-to-update="{{ role.id }}" class="btn btn-round btn-info"><i class="fa fa-edit"></i> Permissions</button>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="create-modal" class="modal fade bs-example-modal-md" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">Update Permissions</h4>
+        </div>
+        <div class="modal-body">          
+          <div class="table-responsive">
+            <table class="table table-striped jambo_table bulk_action">
+              <thead>
+                <tr class="headings">
+                  <th>
+                    <input type="checkbox" id="check-all" class="flat">
+                  </th>
+                  <th class="column-title">Title </th>
+                  <th class="column-title">Slug </th>                  
+                  <th class="column-title no-link last"><span class="nobr">Description</span>
+                  </th>
+                  <th class="bulk-actions" colspan="7">
+                    <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {% for permission in permissions %}
+                  <tr class="even pointer">
+                    <td class="a-center ">
+                      <input type="checkbox" class="flat" name="table_records" id="permission_{{ permission.id }}" data-permission="{{ permission.id }}">
+                    </td>                                  
+                    <td class=" ">{{ permission.permission_title }}</td>                    
+                    <td class=" ">{{ permission.permission_slug }}</td>                    
+                    <td class=" last">{{ permission.permission_description }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button id="send" type="submit" class="btn btn-success">Save</button>          
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+	<!-- Datatables -->
+    <script src="/bower_components/gentelella/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/bower_components/gentelella/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>    
+    <!-- NProgress -->
+    <script src="/bower_components/gentelella/vendors/nprogress/nprogress.js"></script>
+    <!-- iCheck -->
+    <script src="/bower_components/gentelella/vendors/iCheck/icheck.min.js"></script>
+
+    <!-- Datatables -->
+    <script>
+      $(document).ready(function() {        
+        var table = $('#datatable').dataTable({
+          "createdRow": function ( row, data, index ) {
+            $('td', row).eq(2).css('text-align','center');
+          }
+        });
+        var table_permission = $('#datatable_permission').dataTable({
+          "createdRow": function ( row, data, index ) {
+            $('td', row).eq(3).css('text-align','center');
+          }
+        });
+
+        var totalPermissions = '{{ totalPermissions }}';
+        var current_role = 0;
+
+        $('#send').on('click', function(){          
+          var new_permissions = [];
+          $('input[name="table_records"]').each(function( index, key ) {            
+            if (key.checked){
+              new_permissions.push({
+                permission_id: key.attributes[4].nodeValue,
+                role_id: current_role
+              })
+            }
+          });
+
+          $.ajax({
+            method: "PUT",
+            url: "/permissions-roles/"+current_role,
+            data: { 
+              _csrf: '{{ csrfToken }}',
+              new_permissions: new_permissions
+            },
+            dataType: "json"
+          })
+          .done(function( msg ) {
+            if (msg.success){
+                new PNotify({
+                      title: msg.message.title,
+                      text: msg.message.text,   
+                      type: msg.message.type,
+                      styling: 'bootstrap3'
+                  });                    
+                $('#create-modal').modal('toggle'); 
+            }else{
+              new PNotify({
+                    title: 'Error',
+                    text: msg.error_message.message,
+                    type: 'error',                
+                    styling: 'bootstrap3'
+                });
+            }
+          });
+        	return false;
+        });
+
+        $(".modal").on("hidden.bs.modal", function(){
+  		    // clear modal information
+          $('input').iCheck('uncheck');
+		    });        
+        $('#datatable tbody').on( 'click', '.btn-info', function () {
+          var element = $(this).parents('tr');
+          var id_to_update = $(this).attr('data-to-update');               
+          $.ajax({
+            method: "GET",
+            url: "/permissions-roles/"+id_to_update+"/edit/",
+            data: { 
+              _csrf: '{{ csrfToken }}',
+              role_id: id_to_update
+            },
+            dataType: "json"
+          })
+          .done(function( response ) {            
+            current_role = id_to_update;            
+            var i = 0;
+            for (i = 0; i < response.permission_role.length; i++) {
+              $('#permission_' + response.permission_role[i].permission_id).iCheck('check'); 
+            }
+            if (i == totalPermissions){
+              $('input').iCheck('check');
+            }
+            $('#create-modal').modal('toggle'); 
+          });
+          
+        });
+        
+      });
+    </script>
+    <!-- /Datatables -->
+  {% endblock %}

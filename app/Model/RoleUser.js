@@ -8,6 +8,13 @@ class RoleUser extends Lucid {
     return 'role_user'
   }
 
+  static get rules () {
+    return {
+      role_id: 'required',
+      user_id: 'required'
+    }
+  }
+
   static get createTimestamp () {
     return null
   }

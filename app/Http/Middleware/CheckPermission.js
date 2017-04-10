@@ -7,8 +7,8 @@ class CheckPermission {
     // yield next to pass the request to next middleware or controller
     const isLoggedIn = yield request.auth.check()
 	if (isLoggedIn) {
-		const user = yield request.auth.getUser()	  
-		if (yield user.can(permission)) { 			
+		const user = yield request.auth.getUser()
+		if (yield user.can(permission)) {
         	yield next
 		}
 	}

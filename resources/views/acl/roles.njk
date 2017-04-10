@@ -1,0 +1,213 @@
+{% extends 'admin_template' %}
+
+{% block page_title %} ACL: Roles | Admin Control | ACL {% endblock %}
+
+{% block styles %}
+	<!-- iCheck -->
+  <link href="/bower_components/gentelella/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+  <!-- Datatables -->
+  <link href="/bower_components/gentelella/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>ACL <small>Roles</small></h3>
+      </div>
+      <div class="title_right">
+        <div class="col-md-4 col-sm-4 col-xs-12 form-group pull-right">
+          <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target=".bs-example-modal-md">Create Role</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>ACL<small>roles</small></h2>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <table id="datatable" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Slug</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              	{% for role in roles %}
+                <tr>
+                  <td>{{ role.role_title }}</td>
+                  <td>{{ role.role_slug }}</td>
+                  <td>
+                  	<button type="button" data-to-delete="{{ role.id }}" class="btn btn-round btn-danger"><i class="fa fa-trash"></i></button>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="create-modal" class="modal fade bs-example-modal-md" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">Create Role</h4>
+        </div>
+        <div class="modal-body">          
+          <form id="demo-form2" class="form-horizontal form-label-left" data-parsley-validate action="{{ 'roles' }}" method="POST">          
+          <div class="item form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="role_title">Title
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input id="role_title" class="form-control col-md-7 col-xs-12" data-validate-length-range="4" name="role_title" value="{{ old('role_title') }}" placeholder="Role Title" required="required" type="text">
+            </div>
+          </div>
+          <div class="item form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="role_slug">Slug
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input id="role_slug" class="form-control col-md-7 col-xs-12" data-validate-length-range="4" name="role_slug" value="{{ old('role_slug') }}" placeholder="Role Slug" required="required" type="text">
+            </div>
+          </div>          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button id="send" type="submit" class="btn btn-success">Save</button>          
+        </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+	<!-- Datatables -->
+    <script src="/bower_components/gentelella/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/bower_components/gentelella/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>    
+    <!-- Parsley -->
+    <script src="/bower_components/gentelella/vendors/parsleyjs/dist/parsley.min.js"></script>
+
+    <!-- Datatables -->
+    <script>
+      $(document).ready(function() {        
+        var table = $('#datatable').dataTable({
+          "createdRow": function ( row, data, index ) {
+            $('td', row).eq(2).css('text-align','center');
+          }
+        });
+        $('#demo-form2').on('submit', function(){
+          $.ajax({
+                method: "POST",
+                url: "/roles/",
+                data: { 
+                  _csrf: '{{ csrfToken }}',
+                  role_title: $("#role_title").val(),
+                  role_slug: $("#role_slug").val()
+                },
+                dataType: "json"
+              })
+              .done(function( msg ) {
+                if (msg.success){                    
+                    $('#datatable').dataTable().api()
+                    .row.add( [
+                        msg.new_role.role_title,
+                        msg.new_role.role_slug,
+                        '<td align="center"><button type="button" data-to-delete="' + msg.new_role.id +'" class="btn btn-round btn-danger"><i class="fa fa-trash"></i></button></td>'
+                    ] ).draw( false );
+                    new PNotify({
+                          title: msg.message.title,
+                          text: msg.message.text,   
+                          type: msg.message.type,
+                          styling: 'bootstrap3'
+                      });                    
+                    $('#create-modal').modal('toggle'); 
+                }else{
+                  new PNotify({
+                        title: 'Error',
+                        text: msg.error_message.message,
+                        type: 'error',                
+                        styling: 'bootstrap3'
+                    });
+                }
+                  
+              });
+        	return false;
+        });
+
+        $(".modal").on("hidden.bs.modal", function(){
+        	$("#demo-form2").parsley().reset();		    
+  		    $("#role_title").val("");
+  		    $("#role_slug").val("");
+		    });
+        
+        $('#datatable tbody').on( 'click', '.btn-danger', function () {
+          var element = $(this).parents('tr');
+          var id_to_delete = $(this).attr('data-to-delete');
+          console.log(id_to_delete);
+          swal({
+            title: "Are you sure?",
+            text: "If you delete this role, it won't be available for any user!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+          },
+          function(isConfirm){  
+            if (isConfirm) {
+              $.ajax({
+                method: "DELETE",
+                url: "/roles/" + id_to_delete,
+                data: { _csrf: '{{ csrfToken }}' },
+                dataType: "json"
+              })
+              .done(function( msg ) {
+                if (msg.success){
+                    swal.close();
+                    $('#datatable').dataTable().api()
+                        .row( element )
+                        .remove()
+                        .draw();
+                    new PNotify({
+                          title: 'Role deleted',
+                          text: msg.message,                  
+                          styling: 'bootstrap3'
+                      });
+                }else{
+                  new PNotify({
+                        title: 'Error',
+                        text: msg.message,
+                        type: 'error',                
+                        styling: 'bootstrap3'
+                    });
+                }
+                  
+              });
+            } else {
+              swal("Cancelled", "The role information is stored", "info");
+            }
+          });
+    } );
+        
+      });
+    </script>
+    <!-- /Datatables -->
+  {% endblock %}

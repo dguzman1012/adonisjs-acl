@@ -20,7 +20,10 @@ const Route = use('Route')
 Route.group('authenticated', function () {
 	Route.get('/', 'HomeController.getIndex')
 	Route.resources('users', 'UsersController').middleware('acl:users_view')
-	Route.resources('acl', 'UsersController').middleware('acl:accesscontrol-list_view')
+	Route.resources('permissions', 'PermissionsController').middleware('acl:accesscontrol-list_view')
+	Route.resources('roles', 'RolesController').middleware('acl:accesscontrol-list_view')
+	Route.resources('permissions-roles', 'PermissionsRolesController').middleware('acl:accesscontrol-list_view')
+	Route.resources('users-roles', 'RolesUsersController').middleware('acl:accesscontrol-list_view')
 })
 .middleware('auth')
 
