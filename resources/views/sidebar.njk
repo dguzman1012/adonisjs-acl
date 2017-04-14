@@ -27,16 +27,19 @@
         <ul class="nav side-menu">
           <li><a><i class="fa fa-cogs"></i> Settings <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">              
-              <li>{{ linkTo('users', 'Users') }}</li>              
-              <li><a>ACL<span class="fa fa-chevron-down"></span></a>
-                <ul class="nav child_menu">
-                  <li class="sub_menu">{{ linkTo('permissions', 'Permissions') }}</li>
-                  <li>{{ linkTo('roles', 'Roles') }}</li>
-                  <li>{{ linkTo('permissions-roles', 'Permissions-Roles') }}</li>
-                  <li>{{ linkTo('users-roles', 'User-Role') }}</li>                  
-                  </li>
-                </ul>
-              </li>
+              <li>{{ linkTo('/users', 'Users') }}</li>
+              {# old('my_roles') is the flash session with all my roles
+              'super_admin' is the role slug. #}
+              {% if hasRole(old('my_roles'), 'super_admin') %}
+                <li><a>ACL<span class="fa fa-chevron-down"></span></a>
+                  <ul class="nav child_menu">
+                    <li class="sub_menu">{{ linkTo('/permissions', 'Permissions') }}</li>
+                    <li>{{ linkTo('/roles', 'Roles') }}</li>
+                    <li>{{ linkTo('/permissions-roles', 'Permissions-Roles') }}</li>
+                    <li>{{ linkTo('/users-roles', 'User-Role') }}</li>
+                  </ul>
+                </li>              
+              {% endif %}
             </ul>
           </li>
           <li><a><i class="fa fa-bar-chart"></i> Reports <span class="fa fa-chevron-down"></span></a>

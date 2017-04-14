@@ -26,6 +26,7 @@ Route.group('authenticated', function () {
 	Route.resources('users-roles', 'RolesUsersController').middleware('acl:accesscontrol-list_view')
 })
 .middleware('auth')
+.middleware('roles')
 
 Route.get('login', 'AccountController.getLogin')
 Route.post('login', 'AccountController.postLogin')

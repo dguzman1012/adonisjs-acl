@@ -30,7 +30,8 @@ const globalMiddleware = [
 */
 const namedMiddleware = {
   auth: 'Adonis/Middleware/Auth',
-  acl: 'App/Http/Middleware/CheckPermission'
+  acl: 'App/Http/Middleware/CheckPermission',
+  roles: 'App/Http/Middleware/ShareRoles'
 }
 
 /*
