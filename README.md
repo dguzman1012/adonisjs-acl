@@ -36,6 +36,38 @@ cp .env.example .env
 - **Twitter Bootstrap**
 
 
+# How To:
+
+This repo is the pre-configured project structure taked from AdonisJS.
+
+This project include the custom users CRUD and ACL. The ACL module has four (4) sections: permissions, roles, Permissions-roles and User-role. Let's see how to work with them!
+
+![Menu.png](https://bitbucket.org/repo/XXrbrRz/images/1159941208-Menu.png)
+
+
+## Permissions
+![Permissions.png](https://bitbucket.org/repo/XXrbrRz/images/534345681-Permissions.png)
+
+![New permission.png](https://bitbucket.org/repo/XXrbrRz/images/368165276-New%20permission.png)
+
+
+## Roles
+![roles.png](https://bitbucket.org/repo/XXrbrRz/images/738328550-roles.png)
+
+![Create role.png](https://bitbucket.org/repo/XXrbrRz/images/55363483-Create%20role.png)
+
+
+## Permissions-Roles
+![permission-role.png](https://bitbucket.org/repo/XXrbrRz/images/4095968640-permission-role.png)
+
+![Update permissions.png](https://bitbucket.org/repo/XXrbrRz/images/1804138163-Update%20permissions.png)
+
+
+## User-role
+![user-roles.png](https://bitbucket.org/repo/XXrbrRz/images/3299928292-user-roles.png)
+
+![update user-roles.png](https://bitbucket.org/repo/XXrbrRz/images/1395096820-update%20user-roles.png)
+
 # AdonisJs Application
 
 This repo is the pre-configured project structure to be used for creating ambitious web servers using AdonisJs.
