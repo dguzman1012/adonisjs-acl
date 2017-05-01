@@ -26,11 +26,11 @@
         <h3>General</h3>
         <ul class="nav side-menu">
           <li><a><i class="fa fa-cogs"></i> Settings <span class="fa fa-chevron-down"></span></a>
-            <ul class="nav child_menu">              
-              <li>{{ linkTo('/users', 'Users') }}</li>
+            <ul class="nav child_menu">                            
               {# old('my_roles') is the flash session with all my roles
               'super_admin' is the role slug. #}
               {% if hasRole(old('my_roles'), 'super_admin') %}
+                <li>{{ linkTo('/users', 'Users') }}</li>
                 <li><a>ACL<span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                     <li class="sub_menu">{{ linkTo('/permissions', 'Permissions') }}</li>

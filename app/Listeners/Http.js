@@ -43,7 +43,7 @@ Http.handleError = function * (error, request, response) {
  */
 Http.onStart = function () {
   const View = use('View')
-  View.global('hasRole', function (user_roles, role) {
-    return (user_roles.indexOf(role) >= 0)
+  View.global('hasRole', function (user_roles, role) {    
+    return ((user_roles) && (user_roles.indexOf(role) >= 0))
   })
 }
