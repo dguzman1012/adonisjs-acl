@@ -42,31 +42,31 @@ This repo is the pre-configured project structure taked from AdonisJS.
 
 This project include the custom users CRUD and ACL. The ACL module has four (4) sections: permissions, roles, Permissions-roles and User-role. Let's see how to work with them!
 
-![Menu.png](https://bitbucket.org/repo/XXrbrRz/images/1159941208-Menu.png "Menu")
+![menu](https://cloud.githubusercontent.com/assets/5767551/25599052/38536280-2ea7-11e7-836a-075345b7126a.png)
 
 
 ## Permissions
-![Permissions.png](https://bitbucket.org/repo/XXrbrRz/images/534345681-Permissions.png)
+![permissions](https://cloud.githubusercontent.com/assets/5767551/25599081/6a5cc226-2ea7-11e7-99f0-ec0572313a3c.png)
 
-![New permission.png](https://bitbucket.org/repo/XXrbrRz/images/368165276-New%20permission.png)
+![new permission](https://cloud.githubusercontent.com/assets/5767551/25599089/79dd428e-2ea7-11e7-8607-b18812fc506f.png)
 
 
 ## Roles
-![roles.png](https://bitbucket.org/repo/XXrbrRz/images/738328550-roles.png)
+![roles](https://cloud.githubusercontent.com/assets/5767551/25599115/95206e72-2ea7-11e7-82a6-225c695f9a1f.png)
 
-![Create role.png](https://bitbucket.org/repo/XXrbrRz/images/55363483-Create%20role.png)
+![create role](https://cloud.githubusercontent.com/assets/5767551/25599119/9c725cbc-2ea7-11e7-804e-b98659736770.png)
 
 
 ## Permissions-Roles
-![permission-role.png](https://bitbucket.org/repo/XXrbrRz/images/4095968640-permission-role.png)
+![permission-role](https://cloud.githubusercontent.com/assets/5767551/25599136/bc0ee39c-2ea7-11e7-83a6-aeba07b20f8f.png)
 
-![Update permissions.png](https://bitbucket.org/repo/XXrbrRz/images/1804138163-Update%20permissions.png)
+![update permissions](https://cloud.githubusercontent.com/assets/5767551/25599143/d05bbaf0-2ea7-11e7-8589-1e7ec458b382.png)
 
 
 ## User-role
-![user-roles.png](https://bitbucket.org/repo/XXrbrRz/images/3299928292-user-roles.png)
+![user-roles](https://cloud.githubusercontent.com/assets/5767551/25599151/e09d9abe-2ea7-11e7-97ea-7111950984cb.png)
 
-![update user-roles.png](https://bitbucket.org/repo/XXrbrRz/images/1395096820-update%20user-roles.png)
+![update user-roles](https://cloud.githubusercontent.com/assets/5767551/25599159/ed8ea5c4-2ea7-11e7-912d-b0bceb1fd95a.png)
 
 
 ## Hide elements inside a view as per role.
