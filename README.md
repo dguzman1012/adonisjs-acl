@@ -38,7 +38,7 @@ cp .env.example .env
 
 # How To:
 
-This repo is the pre-configured project structure taked from AdonisJS.
+This repository is a pre-configured project structure took from AdonisJS.
 
 This project include the custom users CRUD and ACL. The ACL module has four (4) sections: permissions, roles, Permissions-roles and User-role. Let's see how to work with them!
 
